@@ -1,0 +1,19 @@
+.LoadMoreBtn {
+  background-color: #55a0de;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.LoadMoreBtn:hover {
+  background-color: #5b29d1;
+  transform: scale(1.05);
+}
+
+.LoadMoreBtn:disabled {
+  background-color: #ccc;
+}
