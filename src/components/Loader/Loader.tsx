@@ -1,7 +1,11 @@
 import style from "./Loader.module.css";
 import ClipLoader from "react-spinners/ClipLoader";
 
-const Loader = ({ loading }) => {
+interface LoaderProps {
+  loading: boolean;
+}
+
+const Loader: React.FC<LoaderProps> = ({ loading }) => {
   return (
     loading && (
       <div className={style.loader}>

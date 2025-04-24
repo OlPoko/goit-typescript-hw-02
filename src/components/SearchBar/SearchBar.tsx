@@ -1,16 +1,28 @@
 import style from "./SearchBar.module.css";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, FormikHelpers, FormikErrors } from "formik";
 import toast, { Toaster } from "react-hot-toast";
+import { FC } from "react";
 
-const SearchForm = ({ onSubmit }) => {
-  const handleSubmit = (values, actions) => {
+interface SearchFormProps {
+  onSubmit: (value: string) => void;
+}
+
+interface FormValues {
+  search: string;
+}
+
+const SearchForm: FC<SearchFormProps> = ({ onSubmit }) => {
+  const handleSubmit = (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
     console.log("handleSubmit", values);
     onSubmit(values.search);
     actions.resetForm();
   };
 
-  const validate = (values) => {
-    const errors = {};
+  const validate = (values: FormValues): FormikErrors<FormValues> => {
+    const errors: FormikErrors<FormValues> = {};
     if (!values.search.trim()) {
       errors.search = "Це поле не може бути порожнім";
       toast.error(errors.search);

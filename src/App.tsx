@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import SearchForm from "./components/SearchBar/SearchBar";
-import { getImages } from "./components/FetchImages/FetchImages";
+import { getImages, UnsplashImage } from "./components/FetchImages/FetchImages";
 import ImageGallery from "./components/ImageGallery/ImageGallery";
 import toast from "react-hot-toast";
 import Loader from "./components/Loader/Loader";
@@ -9,15 +9,17 @@ import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import ImageModal from "./components/ImageModal/ImageModal";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 
-const App = () => {
-  const [query, setQuery] = useState("");
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [page, setPage] = useState(1);
-  const [selectedImage, setSelectedImage] = useState(null);
+type SelectedImage = UnsplashImage | null;
 
-  const handleImageClick = (image) => {
+const App = () => {
+  const [query, setQuery] = useState<string>("");
+  const [images, setImages] = useState<UnsplashImage[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
+  const [selectedImage, setSelectedImage] = useState<SelectedImage>(null);
+
+  const handleImageClick = (image: UnsplashImage) => {
     setSelectedImage(image);
   };
 
@@ -25,7 +27,7 @@ const App = () => {
     setSelectedImage(null);
   };
 
-  const handleSearch = (searchTerm) => {
+  const handleSearch = (searchTerm: string) => {
     setQuery(searchTerm);
     setImages([]);
     setPage(1);
@@ -45,7 +47,7 @@ const App = () => {
       setError(false);
 
       try {
-        const imageResults = await getImages(query, page);
+        const imageResults: UnsplashImage[] = await getImages(query, page);
         if (imageResults.length === 0 && page === 1) {
           toast.error("Не знайдено зображень за запитом.");
         } else if (imageResults.length > 0) {
@@ -69,8 +71,8 @@ const App = () => {
       {error && (
         <ErrorMessage message="Помилка при завантаженні зображень. Спробуйте ще раз." />
       )}
-      {loading && <Loader />}
-      <ImageGallery images={images} onImageClick={handleImageClick} />{" "}
+      {loading && <Loader loading={loading} />}
+      <ImageGallery images={images} onImageClick={handleImageClick} />
       {selectedImage && (
         <ImageModal
           isOpen={!!selectedImage}

@@ -1,7 +1,13 @@
 import React from "react";
 import style from "./ImageCard.module.css";
+import { UnsplashImage } from "../FetchImages/FetchImages";
 
-const ImageCard = ({ image, onClick }) => {
+interface ImageCardProps {
+  image: UnsplashImage;
+  onClick: (image: UnsplashImage) => void;
+}
+
+const ImageCard: React.FC<ImageCardProps> = ({ image, onClick }) => {
   return (
     <div className={style.card}>
       <img
